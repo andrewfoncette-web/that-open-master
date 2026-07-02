@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <aside id="sidebar">
+        <img id="company-logo" src="./assests/Construction Company Logo.svg" alt="Construction Company Logo">
+        <ul id="nav-buttons">
+           <li><span class="material-icons-round">apartment</span>Projects</li>
+           <li><span class="material-icons-round">person</span>Users</li>
+        </ul>
+    </aside>
+    <main id="content">
+        <div class="page" id="projects-page" style="display: flex;">
+             <dialog id="new-project-modal">
+                <form id="new-project-form">
+                    <h2>New Project</h2>    
+                    <div class="input-list">
+                    <div class="form-field-container">
+                        <label><span class="material-icons-round">person</span>Name</label>
+                        <input name="name" type="text" placeholder="What's the name of your project?">
+                        <i>TIP: Give a short name to your project.</i>
+                    </div>
+                    <div class="form-field-container">
+                        <label><span class="material-icons-round">notes</span>Description</label>
+                        <textarea name="description" cols="30" rows="5" placeholder="Describe your project here..."></textarea>
+                    </div>
+                    <div class="form-field-container">
+                        <label><span class="material-icons-round">account_circle</span>Role</label>
+                        <select name="userRole">
+                            <option>BIM Coordinator</option>
+                            <option>Civil Engineer</option>
+                            <option>Architect</option>
+                        </select>
+                    </div>
+                    <div class="form-field-container">
+                        <label><span class="material-icons-round">help_center</span>Status</label>
+                        <select name="status">
+                            <option>Pending</option>
+                            <option>Active</option>
+                            <option>Finished</option>
+                        </select>
+                    </div>
+                    <div class="form-field-container">
+                        <label for="finishDate"><span class="material-icons-round">calendar_month</span>Finish Date</label>
+                        <input name="finishDate" type="date">
+                    </div>
+                </div>
+                <div class="buttons-group">
+                        <button type="submit" class="btn submit-btn">Accept</button>
+                        <button type="reset" class="btn reset-btn">Cancel</button>
+                </div>
+            </form>
+        </dialog>
+        <header>
+            <h2>Projects</h2>
+            <div style="display: flex; align-items: center; column-gap: 15px;">
+                <button><span id="import-project-btn" class="material-icons-round action-icon">file_upload</span></button>
+                <button><span id="export-project-btn" class="material-icons-round action-icon">file_download</span></button>
+                <button id="new-project-btn"><span class="material-icons-round">add</span> New Project</button>
+            </div>
+        </header>
+        <div class="grid">
+            <div id="projects-list">
+                <div class="project-card">
+                    <div class="card-header">
+                        <p style="background-color: #ca8134; padding: 10px; border-radius: 8px; aspect-ratio: 1 ;">HC</p>
+                        <div>
+                            <h5>Project Name</h5>
+                            <p>Project Description Goes Here.....</p>
+                        </div>
+                    </div>
+                <div class="card-content">
+                    <div class="card-property">
+                        <p style="color: #969696;">Status</p>
+                        <p>Active</p>
+                    </div>
+                    <div class="card-property">
+                        <p style="color: #969696;">Role</p>
+                        <p>BIM Coordinator</p>
+                    </div>
+                    <div class="card-property">
+                        <p style="color: #969696;">Cost</p>
+                        <p>$1000,000</p>
+                    </div>
+                    <div class="card-property">
+                        <p style="color: #969696;">Estimated Progress</p>
+                        <p>45%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page" id="project-details" style="display: none">
+            <header>
+                <div>
+                    <h2>Hospital Center</h2>
+                    <p style="color: #969696">Community hospital location</p>
+                </div>
+            </header>
+            <div class="main-page-content">
+                <div style="display: flex; flex-direction: column; row-gap: 30px;">
+                     <div class="dashboard-card" style="padding: 30px 0;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 30px;">
+                            <p style="font-size: 20px; background-color: #ca8134; padding: 15px; border-radius: 100px; align-items: center;">NH</p>
+                            <button class="btn-secondary"><p style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">Edit</p></button>
+                     </div>
+                     <div style="padding: 0 30px;">
+                        <div>
+                            <h5>Hospital Center</h5>
+                            <p>Community hospital located at downtown</p>
+                        </div>
+                        <div style="display: flex; column-gap: 30px; padding: 20px 0;">
+                             <div>
+                                <p style="color: #969696;font-size: var(--font-base);">Status</p>
+                                <p>Active</p>
+                            </div>
+                            <div>
+                                <p style="color: #969696;font-size: var(--font-base);">Cost</p>
+                                <p>$2,542.000</p>
+                            </div>
+                            <div>
+                                <p style="color: #969696;font-size: var(--font-base);">Role</p>
+                                <p>Engineer</p>
+                            </div>
+                             <div>
+                                <p style="color: #969696;font-size: var(--font-base);">Finish Date</p>
+                                <p>2023-05-01</p>
+                            </div>
+                        </div>
+                        <div style="background-color: #404040; border-radius: 100px;">
+                            <div style="width: 80%; background-color: rgb(24, 180, 24); height: 100%; border-radius: 100px;">
+                                <p style="color: white; font-size: var(--font-base); text-align: center;">80%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="dashboard-card" style="flex-grow: 1;">
+                <div style="padding: 20px 30px; display: flex; align-items: center; justify-content: space-between;">
+                    <h4>To-Do</h4>
+                    <div style="display: flex; align-items: center;">
+                        <div style="display: flex; align-items: center; column-gap: 5px; margin-right: 10px;">
+                            <span class="material-icons-round">search</span>
+                            <input type="text" placeholder="Search To-Do's by name...">
+                        </div>
+                        <span class="material-icons-round">add</span>
+                    </div>
+                </div>
+                <div style="display: flex; flex-direction: column; row-gap: 30px; padding: 10px 20px;">
+                    <div class="todo-item" style="padding: 5px 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 5px 15px;">
+                            <div style="display: flex; column-gap: 20px; align-items: center;">
+                                <span class="material-icons-round" style="padding: 15px 15px; background-color: #969696; border-radius: 10px;">handyman</span>
+                                <p style="padding: 0 5px; align-items: center;">Make anything here as you want, even someting longer.</p>
+                            </div>
+                            <p style="text-wrap:nowrap; margin-left: 20px;">Fri, 20 Sept</p>
+                        </div>
+                    </div>
+                </div>
+                 <div style="display: flex; flex-direction: column; row-gap: 30px; padding: 10px 20px;">
+                    <div class="todo-item" style="padding: 5px 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 5px 15px;">
+                            <div style="display: flex; column-gap: 20px; align-items: center;">
+                                <span class="material-icons-round" style="padding: 15px 15px; background-color: #969696; border-radius: 10px;">handyman</span>
+                                <p style="padding: 0 5px; align-items: center;">Make anything here as you want, even someting longer.</p>
+                            </div>
+                            <p style="text-wrap:nowrap; margin-left: 20px;">Fri, 20 Sept</p>
+                        </div>
+                    </div>
+                </div>
+                 <div style="display: flex; flex-direction: column; row-gap: 30px; padding: 10px 20px;">
+                    <div class="todo-item" style="padding: 5px 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 5px 15px;">
+                            <div style="display: flex; column-gap: 20px; align-items: center;">
+                                <span class="material-icons-round" style="padding: 15px 15px; background-color: #969696; border-radius: 10px;">handyman</span>
+                                <p style="padding: 0 5px; align-items: center;">Make anything here as you want, even someting longer.</p>
+                            </div>
+                            <p style="text-wrap:nowrap; margin-left: 20px;">Fri, 20 Sept</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="viewer-container" class="dashboard-card"></div> 
+    </main>
+    <script type="module" src="./src/index.ts"></script>
+</body>
+</html>
