@@ -11,7 +11,7 @@
     <aside id="sidebar">
         <img id="company-logo" src="./assests/Construction Company Logo.svg" alt="Construction Company Logo">
         <ul id="nav-buttons">
-           <li><span class="material-icons-round">apartment</span>Projects</li>
+           <li id="projects-nav"><span class="material-icons-round">apartment</span>Projects</li>
            <li><span class="material-icons-round">person</span>Users</li>
         </ul>
     </aside>
@@ -33,17 +33,17 @@
                     <div class="form-field-container">
                         <label><span class="material-icons-round">account_circle</span>Role</label>
                         <select name="userRole">
-                            <option>BIM Coordinator</option>
-                            <option>Civil Engineer</option>
-                            <option>Architect</option>
+                            <option value="Architect">Architect</option>
+                            <option value="Engineer">Engineer</option>
+                            <option value="Developer">Developer</option>
                         </select>
                     </div>
                     <div class="form-field-container">
                         <label><span class="material-icons-round">help_center</span>Status</label>
                         <select name="status">
-                            <option>Pending</option>
-                            <option>Active</option>
-                            <option>Finished</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Active">Active</option>
+                            <option value="Finished">Finished</option>
                         </select>
                     </div>
                     <div class="form-field-container">
@@ -53,7 +53,7 @@
                 </div>
                 <div class="buttons-group">
                         <button type="submit" class="btn submit-btn">Accept</button>
-                        <button type="reset" class="btn reset-btn">Cancel</button>
+                        <button id="cancel-project-btn" type="button" class="btn reset-btn" onclick="document.getElementById('new-project-modal').close()">Cancel</button>
                 </div>
             </form>
         </dialog>
@@ -66,41 +66,16 @@
             </div>
         </header>
         <div class="grid">
-            <div id="projects-list">
-                <div class="project-card">
-                    <div class="card-header">
-                        <p style="background-color: #ca8134; padding: 10px; border-radius: 8px; aspect-ratio: 1 ;">HC</p>
-                        <div>
-                            <h5>Project Name</h5>
-                            <p>Project Description Goes Here.....</p>
-                        </div>
-                    </div>
-                <div class="card-content">
-                    <div class="card-property">
-                        <p style="color: #969696;">Status</p>
-                        <p>Active</p>
-                    </div>
-                    <div class="card-property">
-                        <p style="color: #969696;">Role</p>
-                        <p>BIM Coordinator</p>
-                    </div>
-                    <div class="card-property">
-                        <p style="color: #969696;">Cost</p>
-                        <p>$1000,000</p>
-                    </div>
-                    <div class="card-property">
-                        <p style="color: #969696;">Estimated Progress</p>
-                        <p>45%</p>
-                    </div>
-                </div>
-            </div>
+            <div id="projects-list"></div>
         </div>
-        <div class="page" id="project-details" style="display: none">
+    </div>
+        <div class="page" id="project-details" style="display: none;">
             <header>
                 <div>
-                    <h2>Hospital Center</h2>
-                    <p style="color: #969696">Community hospital location</p>
+                    <h2 id="details-name">Hospital Center</h2>
+                    <p id="details-description" style="color: #969696">Community hospital location</p>
                 </div>
+                <button id="back-to-projects" class="btn-secondary"><span class="material-icons-round">arrow_back</span>Back</button>
             </header>
             <div class="main-page-content">
                 <div style="display: flex; flex-direction: column; row-gap: 30px;">

@@ -1,4 +1,3 @@
-import { getOutputFileNames } from "typescript"
 import { IProject, Project } from "./Project"
 
 export class ProjectsManager {
@@ -11,8 +10,8 @@ export class ProjectsManager {
         this.defaultData = {
             name: "Default Name" as string,
             description: "Default Description" as string,
-            userRole: "developer",
-            status: "active",
+            userRole: "Developer",
+            status: "Active",
             finishDate: new Date()
         }
     }
@@ -21,8 +20,8 @@ export class ProjectsManager {
         const defaultData: IProject = {
             name: "New Project",
             description: "This is a default project",
-            status: "pending",
-            userRole: "developer",
+            status: "Pending",
+            userRole: "Developer",
             finishDate: new Date()
 
         }
@@ -30,6 +29,7 @@ export class ProjectsManager {
     }
 
     newProject(data: IProject) {
+
         const projectNames = this.list.map((project) => {
             return project.name
         })
@@ -38,16 +38,45 @@ export class ProjectsManager {
             throw new Error(`A project with the name "${data.name}" already exists.`)
         }
         const project = new Project(data)
+
+        console.log("Created project:", project)
+        console.log("Project UI:", project.ui)
+
         project.ui.addEventListener("click", () => {
+
+            this.setDetailsPage(project)
+
             const projectsPage = document.getElementById("projects-page")
             const detailsPage = document.getElementById("project-details")
+
+            const detailsName = document.getElementById("details-name")
+
+            const detailsDescription = document.getElementById("details-description")
+
             if (!projectsPage || !detailsPage) { return }
+
             projectsPage.style.display = "none"
             detailsPage.style.display = "flex"
         })
         this.ui.append(project.ui)
+        console.log("Card added to DOM")
         this.list.push(project)
         return project
+    }
+
+    private setDetailsPage(project: Project) {
+       
+        const detailsName = document.getElementById("details-name")
+
+        const detailsDescription = document.getElementById("details-description")
+
+        if (detailsName) {
+            detailsName.textContent = project.name
+        }
+
+        if (detailsDescription) {
+            detailsDescription.textContent = project.description
+        }
     }
 
     getProject(id: string) {

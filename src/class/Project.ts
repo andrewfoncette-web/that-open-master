@@ -1,13 +1,13 @@
 import {v4 as uuidv4} from "uuid"
 
-export type ProjectStatus = "pending" | "active" | "finished"
-export type UserRole = "architect" | "engineer" | "developer"
+export type ProjectStatus = "Pending" | "Active" | "Finished"
+export type UserRole = "Architect" | "Engineer" | "Developer"
 
 export interface IProject {
     name: string
     description: string
-    userRole: "architect" | "engineer" | "developer"
-    status: "pending" | "active" | "finished"
+    userRole: "Architect" | "Engineer" | "Developer"
+    status: "Pending" | "Active" | "Finished"
     finishDate: Date
 }
                
@@ -22,7 +22,7 @@ export class Project implements IProject{
     //Class internals
     cost: number = 0
     progress: number = 0
-    ui: HTMLDivElement = document.createElement("div")
+    ui!: HTMLDivElement
     id: string
 
     constructor(data: IProject) {
@@ -33,12 +33,15 @@ export class Project implements IProject{
     }
 
     setUI() {
-        if(this.ui) {return}
+
         this.ui = document.createElement("div")
         this.ui.className = "project-card"
+
+        this.ui.style.border = "3px solid red"; 
+
         this.ui.innerHTML = `
         <div class="card-header">
-          <p style="background-color: #ca8134; padding: 10px; border-radius: 8px; aspect-ratio: 1 ;">HC</p>
+          <p style="background-color: #ca8134; padding: 10px; border-radius: 8px; aspect-ratio: 1 ;">${this.name.substring(0,2).toUpperCase()}</p>
           <div>
             <h5>${this.name}</h5>
             <p>${this.description}</p>
@@ -55,12 +58,13 @@ export class Project implements IProject{
             </div>
             <div class="card-property">
                 <p style="color: #969696;">Cost</p>
-                <p>${this.cost}</p>
+                <p>$${this.cost}</p>
             </div>
-            <div class="card-property">
+             <div class="card-property">
                 <p style="color: #969696;">Estimated Progress</p>
-                <p>${this.progress * 100}%</p>
+                <p>${this.progress}%</p>
             </div>
         </div>`
+
     }
 }
