@@ -16,15 +16,14 @@
         </ul>
     </aside>
     <main id="content">
-        <div class="page" id="projects-page" style="display: flex;">
-             <dialog id="new-project-modal">
+        <dialog id="new-project-modal">
                 <form id="new-project-form">
                     <h2>New Project</h2>    
                     <div class="input-list">
                     <div class="form-field-container">
                         <label><span class="material-icons-round">person</span>Name</label>
-                        <input name="name" type="text" placeholder="What's the name of your project?">
-                        <i>TIP: Give a short name to your project.</i>
+                        <input name="name" type="text" minlength="5" placeholder="What's the name of your project?">
+                        <i>TIP: Give a short name to your project with a minimum of 5 characters.</i>
                     </div>
                     <div class="form-field-container">
                         <label><span class="material-icons-round">notes</span>Description</label>
@@ -57,18 +56,54 @@
                 </div>
             </form>
         </dialog>
-        <header>
-            <h2>Projects</h2>
-            <div style="display: flex; align-items: center; column-gap: 15px;">
+
+        <dialog id="new-todo-modal">
+            <form id="new-todo-form">
+                <h2>New To-Do</h2>
+                <div class="input-list">
+                    <div class="form-field-container">
+                        <label>Description</label>
+                        <textarea
+                        name="description"
+                        rows="4"
+                        placeholder="Describe the task..."
+                        ></textarea>
+                    </div>
+                    <div class="form-field-container">
+                    <label>Due Date</label>
+                    <input name="dueDate" type="date"></div>
+                    <div class="form-field-container">
+                        <label>Status</label>
+                        <select name="status" required>
+                            <option value="Pending" selected>Pending</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="buttons-group">
+                    <button type="submit" class="btn submit-btn">Add</button>
+                    
+                    <button type="button" class="btn reset-btn" onclick="document.getElementById('new-todo-modal').close()">Cancel</button>
+                </div>
+            </form>
+        </dialog>
+
+        <div class="page" id="projects-page" style="display: flex;">
+             <header>
+                <h2>Projects</h2>
+                <div style="display: flex; align-items: center; column-gap: 15px;">
                 <button><span id="import-project-btn" class="material-icons-round action-icon">file_upload</span></button>
                 <button><span id="export-project-btn" class="material-icons-round action-icon">file_download</span></button>
-                <button id="new-project-btn"><span class="material-icons-round">add</span> New Project</button>
-            </div>
-        </header>
-        <div class="grid">
-            <div id="projects-list"></div>
+                <button id="new-project-btn"><span class="material-icons-round">add</span> New Project</button>  
+                </div>
+             </header>
+             <div class="grid">
+                <div id="projects-list"></div>
+             </div>
         </div>
-    </div>
+
         <div class="page" id="project-details" style="display: none;">
             <header>
                 <div>
@@ -82,29 +117,29 @@
                      <div class="dashboard-card" style="padding: 30px 0;">
                         <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 30px;">
                             <p style="font-size: 20px; background-color: #ca8134; padding: 15px; border-radius: 100px; align-items: center;">NH</p>
-                            <button class="btn-secondary"><p style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">Edit</p></button>
+                            <button id="edit-project-btn" class="btn-secondary"><p style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">Edit</p></button>
                      </div>
                      <div style="padding: 0 30px;">
                         <div>
-                            <h5>Hospital Center</h5>
-                            <p>Community hospital located at downtown</p>
+                            <h5 id="details-card-name">Hospital Center</h5>
+                            <p id="details-card-description">Community hospital located at downtown</p>
                         </div>
                         <div style="display: flex; column-gap: 30px; padding: 20px 0;">
                              <div>
                                 <p style="color: #969696;font-size: var(--font-base);">Status</p>
-                                <p>Active</p>
+                                <p id="details-status">Active</p>
                             </div>
                             <div>
                                 <p style="color: #969696;font-size: var(--font-base);">Cost</p>
-                                <p>$2,542.000</p>
+                                <p id="details-cost">$2,542.000</p>
                             </div>
                             <div>
                                 <p style="color: #969696;font-size: var(--font-base);">Role</p>
-                                <p>Engineer</p>
+                                <p id="details-role">Engineer</p>
                             </div>
                              <div>
                                 <p style="color: #969696;font-size: var(--font-base);">Finish Date</p>
-                                <p>2023-05-01</p>
+                                <p id="details-finish-date">2023-05-01</p>
                             </div>
                         </div>
                         <div style="background-color: #404040; border-radius: 100px;">
@@ -120,44 +155,12 @@
                     <div style="display: flex; align-items: center;">
                         <div style="display: flex; align-items: center; column-gap: 5px; margin-right: 10px;">
                             <span class="material-icons-round">search</span>
-                            <input type="text" placeholder="Search To-Do's by name...">
+                            <input id="todo-search" type="text" placeholder="Search To-Do's by name...">
                         </div>
-                        <span class="material-icons-round">add</span>
+                        <span id="new-todo-btn" class="material-icons-round" style="cursor: pointer;">add</span>
                     </div>
                 </div>
-                <div style="display: flex; flex-direction: column; row-gap: 30px; padding: 10px 20px;">
-                    <div class="todo-item" style="padding: 5px 15px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 5px 15px;">
-                            <div style="display: flex; column-gap: 20px; align-items: center;">
-                                <span class="material-icons-round" style="padding: 15px 15px; background-color: #969696; border-radius: 10px;">handyman</span>
-                                <p style="padding: 0 5px; align-items: center;">Make anything here as you want, even someting longer.</p>
-                            </div>
-                            <p style="text-wrap:nowrap; margin-left: 20px;">Fri, 20 Sept</p>
-                        </div>
-                    </div>
-                </div>
-                 <div style="display: flex; flex-direction: column; row-gap: 30px; padding: 10px 20px;">
-                    <div class="todo-item" style="padding: 5px 15px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 5px 15px;">
-                            <div style="display: flex; column-gap: 20px; align-items: center;">
-                                <span class="material-icons-round" style="padding: 15px 15px; background-color: #969696; border-radius: 10px;">handyman</span>
-                                <p style="padding: 0 5px; align-items: center;">Make anything here as you want, even someting longer.</p>
-                            </div>
-                            <p style="text-wrap:nowrap; margin-left: 20px;">Fri, 20 Sept</p>
-                        </div>
-                    </div>
-                </div>
-                 <div style="display: flex; flex-direction: column; row-gap: 30px; padding: 10px 20px;">
-                    <div class="todo-item" style="padding: 5px 15px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 5px 15px;">
-                            <div style="display: flex; column-gap: 20px; align-items: center;">
-                                <span class="material-icons-round" style="padding: 15px 15px; background-color: #969696; border-radius: 10px;">handyman</span>
-                                <p style="padding: 0 5px; align-items: center;">Make anything here as you want, even someting longer.</p>
-                            </div>
-                            <p style="text-wrap:nowrap; margin-left: 20px;">Fri, 20 Sept</p>
-                        </div>
-                    </div>
-                </div>
+                <div id="todo-list" style="display: flex; flex-direction: column; row-gap: 20px; padding: 10px 20px;"></div>
             </div>
         </div>
         <div id="viewer-container" class="dashboard-card"></div> 
