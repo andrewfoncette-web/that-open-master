@@ -1,4 +1,5 @@
 import {v4 as uuidv4} from "uuid"
+import { ToDo } from "./ToDo"
 
 export type ProjectStatus = "Pending" | "Active" | "Finished"
 export type UserRole = "Architect" | "Engineer" | "Developer"
@@ -9,6 +10,7 @@ export interface IProject {
     userRole: "Architect" | "Engineer" | "Developer"
     status: "Pending" | "Active" | "Finished"
     finishDate: Date
+    toDos?: ToDo[]
 }
                
 export class Project implements IProject{
@@ -19,6 +21,8 @@ export class Project implements IProject{
     status!: ProjectStatus
     finishDate!: Date
 
+     toDos: ToDo[] = []
+
     //Class internals
     cost: number = 0
     progress: number = 0
@@ -27,8 +31,15 @@ export class Project implements IProject{
     id: string
 
     constructor(data: IProject) {
-        Object.assign(this, data) // Assign the properties from the data object to the instance
-        this.id = uuidv4() // Generate a unique ID for each project instance
+    
+            this.toDos = []
+
+            Object.assign(this, data) // Assign the properties from the data object to the instance
+
+            console.log("Constructor toDos:", this.toDos) // Log the toDos property to verify it's an empty array
+            console.log("Constructor keys:", Object.keys(this)) // Log the keys of the instance to verify the properties
+
+            this.id = (data as IProject & { id?: string}).id ?? uuidv4() // Generate a unique ID for each project instance
         
         const colors = [
             "#ca8134", // Orange
@@ -40,14 +51,18 @@ export class Project implements IProject{
         ]
 
         this.color = colors[Math.floor(Math.random() * colors.length)] // Assign a random color from the array
-        
+
+        this.progress = 80;
+
         this.setUI()
     
     }
 
     setUI() {
 
-        this.ui = document.createElement("div")
+        if (!this.ui) {
+            this.ui = document.createElement("div")
+        }
         this.ui.className = "project-card"
 
         this.ui.style.border = "3px solid red"; 

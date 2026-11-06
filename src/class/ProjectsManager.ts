@@ -1,9 +1,11 @@
 import { IProject, Project } from "./Project"
 import { ToDo } from "./ToDo"
 
+console.log("LOADED PROJECTS MANAGER AUG-2026");
+
 export class ProjectsManager {
     list: Project[] = []
-    ui: HTMLElement
+   
     defaultData: IProject
 
     selectedProject: Project | null = null
@@ -11,16 +13,7 @@ export class ProjectsManager {
 
     todoSearchText: string = ""
 
-    constructor(container: HTMLElement) {
-        this.ui = container
-        this.defaultData = {
-            name: "Default Name" as string,
-            description: "Default Description" as string,
-            userRole: "Developer",
-            status: "Active",
-            finishDate: new Date()
-        }
-    }
+    constructor() {}
 
     createDefaultProject(){
         const defaultData: IProject = {
@@ -55,87 +48,13 @@ export class ProjectsManager {
         console.log("Created project:", project)
         console.log("Project UI:", project.ui)
 
-        project.ui.addEventListener("click", () => {
-
-            console.log("PROJECT CARD CLICKED")
-
-            this.selectedProject = project
-            this.setDetailsPage(project)
-            this.refreshToDoList()
-
-            const projectsPage = document.getElementById("projects-page")
-            const detailsPage = document.getElementById("project-details")
-
-            if (!projectsPage || !detailsPage) { return }
-
-            projectsPage.style.display = "none"
-            detailsPage.style.display = "flex"
-        })
-        this.ui.append(project.ui)
-        console.log("Card added to DOM")
-        this.list.push(project)
-        return project
-    }
-
-    private setDetailsPage(project: Project) {
        
-        const detailsName = document.getElementById("details-name")
-
-        if (detailsName) {
-            detailsName.textContent = project.name
-        }
-
-        const detailsDescription = document.getElementById("details-description")
-
-         if (detailsDescription) {
-            detailsDescription.textContent = project.description
-        }
-
-        const detailsCardName = document.getElementById("details-card-name")
-
-         if (detailsCardName) {
-            detailsCardName.textContent = project.name
-        }
-
-        const detailsCardDescription = document.getElementById("details-card-description")
-
-        if (detailsCardDescription) {
-            detailsCardDescription.textContent = project.description
-        }
-
-        const detailsStatus = document.getElementById("details-status")
-
-         if (detailsStatus) {
-            detailsStatus.textContent = project.status
-        }
-
-        const detailsRole = document.getElementById("details-role")
-
-         if (detailsRole) {
-            detailsRole.textContent = project.userRole
-        }
-
-        const detailsCost = document.getElementById("details-cost")
-
-        if (detailsCost) {
-            detailsCost.textContent = `$${project.cost}`
-        }
-
-        console.log("Project Finish Date:", project.finishDate);
-
-        const detailsFinishDate = document.getElementById("details-finish-date")
-
-        if (detailsFinishDate) {
-
-            const finishDate = new Date(project.finishDate)
-
-            console.log("Finish Date Element: ", detailsFinishDate);
-            console.log("Project Finish Date:", project.finishDate);
-
-            detailsFinishDate.textContent = finishDate.toISOString().split('T')[0]; // Format the date as YYYY-MM-DD
-        }
+       
+        this.list.push(project);
+        return project;
     }
 
+   
     updateProject(project: Project, data: IProject) {
 
     project.name = data.name
@@ -146,7 +65,7 @@ export class ProjectsManager {
 
     project.setUI()
 
-    this.setDetailsPage(project)
+
 }
 
 refreshToDoList() {
