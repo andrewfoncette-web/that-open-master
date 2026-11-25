@@ -27,7 +27,7 @@ export class ProjectsManager {
         const project = new Project(defaultData)
     }
 
-    newProject(data: IProject) {
+    newProject(data: IProject, id?: string) {
 
         if (data.name.trim().length < 5) {
             throw new Error("Project name must be at least 5 characters long.")
@@ -40,7 +40,7 @@ export class ProjectsManager {
         if (nameInUse) {
             throw new Error(`A project with the name "${data.name}" already exists.`)
         }
-        const project = new Project(data)
+        const project = new Project(data, id)
 
         project.toDos = []
 

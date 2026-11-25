@@ -30,7 +30,7 @@ export class Project implements IProject{
     ui!: HTMLDivElement
     id: string
 
-    constructor(data: IProject) {
+    constructor(data: IProject, id = uuidv4()) {
     
             this.toDos = []
 

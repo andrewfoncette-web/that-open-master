@@ -1,4 +1,6 @@
 import { Project } from "../class/Project";
+import * as React from "react";
+import { appIcons } from "../globals";
 
 interface Props {
     project: Project;
@@ -30,46 +32,46 @@ export default function ProjectCard({
                 </p>
 
                 <div>
-                    <h5>{project.name}</h5>
+                    <bim-label style={{color: "white", fontSize: "1.2rem"}}>{project.name}
+                    </bim-label>
 
-                    <p>
-                        {project.description}
-                    </p>
+                    <bim-label>{project.description}</bim-label>
                 </div>
             </div>
 
             <div className="card-content">
 
                 <div className="card-property">
-                    <p style={{ color: "#969696" }}>
+                    <bim-label icon={appIcons.STATUS} style={{ color: "#969696" }}>
                         Status
-                    </p>
+                    </bim-label>
 
-                    <p>{project.status}</p>
+                    <bim-label>{project.status}</bim-label>
                 </div>
 
                 <div className="card-property">
-                    <p style={{ color: "#969696" }}>
+                    <bim-label icon={appIcons.STATUS} style={{ color: "#969696" }}>
                         Role
-                    </p>
+                    </bim-label>
 
-                    <p>{project.userRole}</p>
+                    <bim-label>{project.userRole}</bim-label>
                 </div>
 
                 <div className="card-property">
-                    <p style={{ color: "#969696" }}>
+                    <bim-label icon={appIcons.COST} style={{ color: "#969696" }}>
                         Cost
-                    </p>
+                    </bim-label>
 
-                    <p>$0</p>
+                    <bim-label>${project.cost}</bim-label>
+
                 </div>
 
                 <div className="card-property">
-                    <p style={{ color: "#969696" }}>
+                    <bim-label icon={appIcons.PROGRESS} style={{ color: "#969696" }}>
                         Estimated Progress
-                    </p>
+                    </bim-label>
 
-                    <p>0%</p>
+                    <bim-label> 0% </bim-label>
                 </div>
 
             </div>

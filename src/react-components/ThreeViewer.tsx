@@ -35,7 +35,13 @@ export function ThreeViewer() {
             antialias: true
         });
 
+        renderer.setPixelRatio(window.devicePixelRatio);
+
         viewerContainer.appendChild(renderer.domElement);
+
+        renderer.domElement.style.display = "block";
+        renderer.domElement.style.width = "100%";
+        renderer.domElement.style.height = "100%";
 
         // Camera
         camera = new THREE.PerspectiveCamera(
@@ -48,27 +54,31 @@ export function ThreeViewer() {
         camera.position.z = 5;
 
         // Resize viewer
-        function resizeViewer() {
+function resizeViewer() {
 
-            const containerDimensions = viewerContainer.getBoundingClientRect();
+    const containerDimensions = viewerContainer.getBoundingClientRect();
 
-            if (containerDimensions.width === 0 || containerDimensions.height === 0) {
-                return;
-            }
+    if (containerDimensions.width === 0 || containerDimensions.height === 0) {
+        return;
+    }
 
-            renderer.setSize(
-                containerDimensions.width,
-                containerDimensions.height
-            );
+    renderer.setSize(
+        containerDimensions.width,
+        containerDimensions.height
+    );
 
-            camera.aspect =
-                containerDimensions.width / containerDimensions.height;
+    camera.aspect =
+        containerDimensions.width / containerDimensions.height;
 
-            camera.updateProjectionMatrix();
-        }
+    camera.updateProjectionMatrix();
+}
 
-        window.addEventListener("resize", resizeViewer);
-        resizeViewer();
+// Observe changes to the viewer container
+const resizeObserver = new ResizeObserver(resizeViewer);
+
+resizeObserver.observe(viewerContainer);
+
+resizeViewer();
 /*
         // Cube
         const boxGeometry = new THREE.BoxGeometry();
@@ -184,8 +194,13 @@ export function ThreeViewer() {
             <div className="dashboard-card">
 
                 <div style={{
-                    minHeight: "650px",
-                    padding: "25px"
+                    width: "100%",
+                    height: "100%",
+                    minHeight: 0,
+                    padding: 0,
+                    flex: 1,
+                    display: "flex",
+                    flexDirection: "column"
                 }}>
 
                     <div
@@ -193,7 +208,9 @@ export function ThreeViewer() {
                         ref={viewerRef}
                         style={{
                             width: "100%",
-                            height: "600px"
+                            height: "100%",
+                            minHeight: 0,
+                            flex: 1
                         }}
                     />
 

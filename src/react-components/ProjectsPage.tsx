@@ -29,6 +29,11 @@ export default function ProjectsPage() {
     const [projectSearch, setProjectSearch] = 
     React.useState("");
 
+    const uploadButtonRef = React.useRef<HTMLElement>(null);
+    const downloadButtonRef = React.useRef<HTMLElement>(null);
+    const newProjectButtonRef = React.useRef<HTMLElement>(null);
+    const searchInputRef = React.useRef<HTMLElement>(null);
+
     const [firebaseProjects, setFirebaseProjects] =
     React.useState<Project[]>([]);
 
@@ -146,6 +151,46 @@ React.useEffect(() => {
     };
 }, [navigate]);
 
+React.useEffect(() => {
+
+    const uploadButton = uploadButtonRef.current;
+    const downloadButton = downloadButtonRef.current;
+    const newProjectButton = newProjectButtonRef.current;
+
+    const handleUpload = () => {
+        projectsManager.importFromJSON();
+    };
+
+    const handleDownload = () => {
+        projectsManager.exportToJSON();
+    };
+
+    const handleNewProject = () => {
+        onNewProjectClick();
+    };
+
+    const searchInput = searchInputRef.current;
+
+    const handleSearch = (event: Event) => {
+    const target = event.target as HTMLInputElement;
+    setProjectSearch(target.value);
+    };
+
+    
+    uploadButton?.addEventListener("click", handleUpload);
+    downloadButton?.addEventListener("click", handleDownload);
+    newProjectButton?.addEventListener("click", handleNewProject);
+    searchInput?.addEventListener("input", handleSearch);
+
+    return () => {
+        uploadButton?.removeEventListener("click", handleUpload);
+        downloadButton?.removeEventListener("click", handleDownload);
+        newProjectButton?.removeEventListener("click", handleNewProject);
+        searchInput?.removeEventListener("input", handleSearch);
+    };
+
+}, []);
+
     
 
     const onNewProjectClick = () => {
@@ -153,6 +198,17 @@ React.useEffect(() => {
           if(!(modal && modal instanceof HTMLDialogElement)){return}
             modal.showModal()
    }
+
+   React.useEffect(() => {
+
+    const searchInput = searchInputRef.current;
+
+    searchInput?.style.setProperty(
+        "--bim-ui_main-base",
+        "#029AE0"
+    );
+
+}, []);
 
 /*
        const onProjectSearch = (value: string) => {
@@ -278,29 +334,51 @@ console.log("Projects:", projectsManager.list);
 </dialog>  
 
     
+{!selectedProject && (
+    <div 
+        className="page" 
+        id="projects-page" 
+    >
+    <header>
 
-       
-
-        {!selectedProject && (
-            <div 
-            className="page" 
-            id="projects-page" 
-           >
-             <header>
-                <h2>Projects</h2>
+        <bim-label style={{ fontSize: "1.8rem", fontWeight: "bold" }}>
+          Projects
+        </bim-label>
                 
-               <SearchBox
-                  value={projectSearch}
-                  onChange={setProjectSearch}
-                  width="320px"
-                 />
+       <bim-text-input
+           ref={searchInputRef}
+           icon="material-symbols:search"
+           placeholder="Search Projects..."
+           type="text"
+           value={projectSearch}
+           style={{
+                    width: "400px",
+                    flex: "0 0 400px"
+                }}
+    />
 
-                <div style={{display: "flex", alignItems: "center", columnGap: "15px"}}>
-                <button onClick={() => projectsManager.importFromJSON()}><span id="import-project-btn" className="material-icons-round action-icon">file_upload</span></button>
-                <button onClick={() => projectsManager.exportToJSON()}><span id="export-project-btn" className="material-icons-round action-icon">file_download</span></button>
-                <button onClick={onNewProjectClick} id="new-project-btn"><span className="material-icons-round">add</span>{" "} New Project</button>  
-                </div>
-             </header>
+<div style={{display: "flex", alignItems: "center", columnGap: "15px"}}>
+
+    <bim-button
+        ref={uploadButtonRef}
+        icon="material-symbols:upload"
+        label="Upload"
+    />
+
+    <bim-button
+        ref={downloadButtonRef}
+        icon="material-symbols:download"
+        label="Download"
+    />
+
+    <bim-button
+        ref={newProjectButtonRef}
+        icon="material-symbols:add"
+        label="New Project"
+    />
+
+</div>
+    </header>
 
              <div 
                  className="grid"

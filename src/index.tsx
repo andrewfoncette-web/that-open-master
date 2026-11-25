@@ -4,10 +4,11 @@ import  Sidebar  from "./react-components/Sidebar";
 import ProjectsPage from "./react-components/ProjectsPage";
 import { IProject, Project, ProjectStatus, UserRole } from "./class/Project"
 import { ProjectsManager } from "./class/ProjectsManager"
-import { ToDo, ToDoStatus } from "./class/ToDo"
+import { ToDo, ToDoStatus, ToDoPriority } from "./class/ToDo"
 import { projectsManager } from "./class/projectsManagerInstance";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-
+import * as BUI from "@thatopen/ui";
+import UsersPage from "./react-components/UsersPage";
 
 
 
@@ -34,6 +35,11 @@ function App() {
                     />
 
                     <Route
+                        path="/users"
+                        element={<UsersPage />}
+                    />
+
+                    <Route
                         path="*"
                         element={<Navigate to="/" replace />}
                     />
@@ -41,6 +47,48 @@ function App() {
             </main>
         </BrowserRouter>
     );
+}
+
+BUI.Manager.init();
+
+declare module "react" {
+    namespace JSX {
+        interface IntrinsicElements {
+            "bim-label": React.DetailedHTMLProps<
+                React.HTMLAttributes<HTMLElement>,
+                HTMLElement
+            > & {
+                icon?: string;
+
+            };
+
+            "bim-button": React.DetailedHTMLProps<
+                React.HTMLAttributes<HTMLElement>,
+                HTMLElement
+            > & {
+                 icon?: string;
+                 label?: string;
+            };
+
+            "bim-text-input": React.DetailedHTMLProps<
+                React.HTMLAttributes<HTMLElement>,
+                HTMLElement
+            > & {
+                 icon?: string;
+                 label?: string;
+                 name?: string;
+                 placeholder?: string;
+                 value?: string;
+                 type?: string;
+                 debounce?: number;
+            };
+
+            "bim-grid": React.DetailedHTMLProps<
+                React.HTMLAttributes<HTMLElement>,
+                HTMLElement
+            >;
+        }
+    }
 }
 
 root.render(<App />);
@@ -174,7 +222,9 @@ toDoForm?.addEventListener("submit", (e) => {
                 formData.get("dueDate") as string
             ),
 
-        status: formData.get("status") as ToDoStatus
+        status: formData.get("status") as ToDoStatus,
+
+        priority: formData.get("priority") as ToDoPriority
             
     })
 

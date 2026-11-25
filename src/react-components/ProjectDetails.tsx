@@ -1,14 +1,53 @@
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
-
 import { Project } from "../class/Project";
 import { ToDo, ToDoStatus, ToDoPriority } from "../class/ToDo";
-
 import { firebaseDB } from "../firebase/index";
-
 import ProjectTasksList from "./ProjectTasksList";
-import { ThreeViewer } from "./ThreeViewer";
+import * as BUI from "@thatopen/ui";
+import * as TEMPLATES from "../ui-templates"
+import { setupComponents } from "../bim-components";
+import * as OBC from "@thatopen/components"; 
+import { ComponentsGrid } from "../ui-templates/grids/components/src";
+import { gridSidebarTemplate } from "../ui-templates/containers/grid-sidebar";
+
+type HeaderElement = {
+    name: "header";
+    state: {};
+};
+
+type LeftElement = {
+    name: "left";
+    state: {};
+};
+
+type SidebarElement = {
+    name: "sidebar";
+    state: TEMPLATES.GridSidebarState;
+};
+
+type ComponentsGridElement = {
+    name: "componentsGrid";
+    state: {
+        components: OBC.Components;
+        viewport?: BUI.Viewport;
+    };
+};
+
+type ProjectDetailsGridElements = [
+    HeaderElement,
+    LeftElement,
+    SidebarElement,
+    ComponentsGridElement
+];
+
+type ProjectDetailsGridLayouts = ["main"];
+
+type ProjectDetailsGrid = BUI.Grid<
+    ProjectDetailsGridLayouts,
+    ProjectDetailsGridElements
+>;
 
 interface Props {
     project: Project;
@@ -23,6 +62,77 @@ export default function ProjectDetails({
     onEdit,
     onDelete
 }: Props) {
+
+    const gridRef = React.useRef<HTMLElement>(null);
+    const headerRef = React.useRef<HTMLElement>(null);
+    const leftColumnRef = React.useRef<HTMLDivElement>(null);
+
+    let engineManager: OBC.Components | null = null 
+    
+
+   
+const setupGrid = async () => {
+
+    const grid = gridRef.current as ProjectDetailsGrid | null;
+
+
+    const header = headerRef.current;
+    const leftColumn = leftColumnRef.current;
+
+    if (!grid || !header || !leftColumn) {
+        return;
+    }
+
+    const { components, viewport } = await setupComponents();
+    engineManager = components
+
+    console.log("Sidebar template:", TEMPLATES.gridSidebarTemplate);
+    console.log("Components grid template:", TEMPLATES.componentsGridTemplate);
+
+   grid.elements = {
+    header,
+    left: leftColumn,
+    sidebar: {
+        template: gridSidebarTemplate,
+        initialState: {}
+    },
+    componentsGrid: {
+        template: TEMPLATES.componentsGridTemplate,
+        initialState: { components, viewport }
+    }
+};
+
+grid.layouts = {
+    main: {
+        template: `
+            "sidebar sidebar" auto
+            "header header" auto
+            "left componentsGrid" minmax(0, 1fr)
+            / minmax(0, 0.65fr) minmax(0, 1.35fr)
+        `
+    }
+};
+
+    grid.addEventListener("elementcreated", (e: CustomEvent<BUI.
+        ElementCreatedEventDetail<ComponentsGrid>>) => {
+        const { name, element: componentsGrid } = e.detail
+        if (name !== "componentsGrid") return
+        grid.updateComponent.sidebar({ grid: componentsGrid })
+    })
+
+    grid.layout = "main";
+};
+
+
+   React.useEffect(() => {
+    setupGrid()
+    return () => {
+        engineManager?.dispose()
+        engineManager = null 
+    }
+
+}, []);
+
 
     const [todos, setTodos] = useState<ToDo[]>([]);
     const [loadingTodos, setLoadingTodos] = useState(true);
@@ -106,12 +216,17 @@ export default function ProjectDetails({
     console.log("Project Progress:", project.progress);
 
     return (
-        <div
-            className="page"
+        <bim-grid
+            ref={gridRef} 
             id="project-details"
+            style={{
+                width: "100%",
+                height: "100vh",
+                minHeight: "600px"
+            }}
         >
 
-            <header>
+            <header ref={headerRef}>
                 <div>
 
                     <h2>{project.name}</h2>
@@ -131,9 +246,9 @@ export default function ProjectDetails({
 
             </header>
 
-            <div className="main-page-content">
+            
 
-                <div className="left-column">
+                <div className="left-column" ref={leftColumnRef}>
 
                     {/* PROJECT CARD */}
 
@@ -311,10 +426,7 @@ export default function ProjectDetails({
 
                 {/* RIGHT COLUMN */}
 
-                <ThreeViewer />
-
-            </div>
-
-        </div>
+              
+        </bim-grid>
     );
 }

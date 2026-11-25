@@ -1,0 +1,22 @@
+export const appIcons = {
+    STATUS: "fluent:status-20-filled",
+    USER: "fluent:person-20-filled",
+    MONEY: "fluent:money-20-filled",
+    PROGRESS: "fluent:status-20-filled",
+    ADD: "fluent:add-20-filled",
+    DOWNLOAD: "fluent:arrow-download-20-filled",
+    UPLOAD: "fluent:arrow-upload-20-filled",
+    PROJECT: "fluent:building-20-filled",
+    SELECT: "ix:select-alt",
+    COLORIZE: "material-symbols:colorize",
+    APPLY: "material-symbols:check",
+    CLEAR: "icon-park-twotone:clear",
+    HIDE: "material-symbols:visibility-off",
+    ISOLATE: "uim:object-ungroup",
+    SHOW: "bxs:show",
+    TRANSPARENT: "heroicons:cube-transparent-16-solid",
+    TOGGLEGHOST: "andrsrxn:ghost",
+    REFRESH: "andrsrxn:refresh",
+    COST: "f7:money-dollar-circle-fill",
+    FOCUS: "cil:center-focus"
+};
